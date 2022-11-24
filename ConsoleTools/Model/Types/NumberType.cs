@@ -53,7 +53,6 @@ namespace ConsoleTools.Model.Types
                 if (convertedLength > MaxWidth)
                     _maxWidth = convertedLength;
             }
-                
 
             return convertedLength;
         }
