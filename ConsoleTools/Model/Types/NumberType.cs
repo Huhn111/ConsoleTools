@@ -12,7 +12,7 @@ namespace ConsoleTools.Model.Types
 {
     public class NumberType<T> : TypeBase<T> where T : IBinaryNumber<T>
     {
-        private readonly int _minWidth;
+        private int _minWidth;
         private int _maxWidth;
 
         public NumberType(int width) : this(width, width) { }
@@ -29,21 +29,33 @@ namespace ConsoleTools.Model.Types
         }
 
         protected override int GetMaxWidth() => _maxWidth;
-        protected override int GetMinWidth() => _minWidth;
+        protected override int GetMinWidth() => _minWidth ;
 
-        public override string ConvertToString(T element)
+        protected override string ConvertToString(T element)
         {
             var text = element.ToString() ?? String.Empty;
 
             if (text.Length > MaxWidth)
+                text = $"{element:e0}";
+
+            return text;
+        }
+
+        protected override int GetElemetLength(T element)
+        {
+            var text = element.ToString() ?? String.Empty;
+            var convertedLength = ConvertToString(element).Length;
+
+            if (text.Length > MaxWidth)
             {
-                var scientific = $"{element:e0}";
+                _minWidth = convertedLength;
 
-
-                    text = $"{element:e0}";
+                if (convertedLength > MaxWidth)
+                    _maxWidth = convertedLength;
             }
+                
 
-            return FormatString(text);
+            return convertedLength;
         }
     }
 }

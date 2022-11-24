@@ -28,12 +28,8 @@ namespace ConsoleTools.Model.Types
             _minWidth = minWidth;
         }
 
+        protected override string ConvertToString(string element) => element;
         protected override int GetMaxWidth() => _maxWidth;
         protected override int GetMinWidth() => _minWidth;
-
-        public override string ConvertToString(string element)
-        {
-            return FormatString(element);
-        }
     }
 }

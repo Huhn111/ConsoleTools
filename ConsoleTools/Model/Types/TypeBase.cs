@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ConsoleTools.Model.Types
 {
@@ -14,19 +15,16 @@ namespace ConsoleTools.Model.Types
         protected readonly Orientations _orientation;
         public int MinWidth { get => GetMinWidth(); }
         public int MaxWidth { get => GetMaxWidth(); }
+        public int ActualMaxWidth { get; set; }
         public Orientations Orientation { get => _orientation; }
-
-        public int ActualWidth { get; private set; }
 
         public TypeBase() { _orientation = Orientations.Left; }
         public TypeBase(Orientations orientation) { _orientation = orientation; }
 
         protected abstract int GetMaxWidth();
         protected abstract int GetMinWidth();
-        protected abstract int SetActualWidth();
-        public abstract string ConvertToString(T element);
-
-        public virtual string FormatString(string? element)
+        protected abstract string ConvertToString(T element);
+        protected virtual string FormatString(string? element)
         {
             var text = element ?? string.Empty;
 
@@ -41,5 +39,9 @@ namespace ConsoleTools.Model.Types
                 _ => throw new NotImplementedOrientationException(Orientation)
             };
         }
+
+        protected virtual int GetElemetLength(T element) => ConvertToString(element).Length;
+        public virtual string GetFormatedString(T element) => FormatString(ConvertToString(element));
+        public virtual int GetActualMaxWidth(IEnumerable<T> elementList) => elementList.Select(GetElemetLength).Max();
     }
 }

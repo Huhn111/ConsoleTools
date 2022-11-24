@@ -11,23 +11,6 @@ namespace ConsoleTools.Test.Model.Types
 {
     public class StringTypeShould
     {
-        [InlineData(Orientations.Left, "Test", "Test      ")]
-        [InlineData(Orientations.Right, "Test", "      Test")]
-        [InlineData(Orientations.Center, "Test", "   Test   ")]
-        [InlineData(Orientations.Left, "Long Test Text", "Long Te...")]
-        [InlineData(Orientations.Right, "Long Test Text", "Long Te...")]
-        [InlineData(Orientations.Center, "Long Test Text", "Long Te...")]
-        [Theory]
-        public void FormatText(Orientations orientation, string text, string expectedResult)
-        {
-            StringType sType = new(10, orientation) { ActualWidth = text.Length };
-
-            var result = sType.ConvertToString(text);
-
-            result.Length.ShouldBe(10);
-            result.ShouldBe(expectedResult);
-        }
-
         [Fact]
         public void BuildType()
         {
@@ -50,6 +33,34 @@ namespace ConsoleTools.Test.Model.Types
             sType.MaxWidth.ShouldBe(20);
             sType.MinWidth.ShouldBe(15);
             sType.Orientation.ShouldBe(Orientations.Center);
+        }
+
+        [InlineData(Orientations.Left, "Test", "Test      ")]
+        [InlineData(Orientations.Right, "Test", "      Test")]
+        [InlineData(Orientations.Center, "Test", "   Test   ")]
+        [InlineData(Orientations.Left, "Long Test Text", "Long Te...")]
+        [InlineData(Orientations.Right, "Long Test Text", "Long Te...")]
+        [InlineData(Orientations.Center, "Long Test Text", "Long Te...")]
+        [Theory]
+        public void FormatText(Orientations orientation, string text, string expectedResult)
+        {
+            StringType sType = new(10, orientation) { ActualMaxWidth = text.Length };
+
+            var result = sType.GetFormatedString(text);
+
+            result.Length.ShouldBe(10);
+            result.ShouldBe(expectedResult);
+        }
+
+        [Fact]
+        public void GetActualMaxWidth()
+        {
+            StringType sType = new(10);
+            string[] collection = { "Foo", "Text", "Long Text" };
+
+            var result = sType.GetActualMaxWidth(collection);
+
+            result.ShouldBe(9);
         }
     }
 }
