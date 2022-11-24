@@ -13,7 +13,7 @@ namespace ConsoleTools.Model.Types
     public class NumberType<T> : TypeBase<T> where T : IBinaryNumber<T>
     {
         private readonly int _minWidth;
-        private readonly int _maxWidth;
+        private int _maxWidth;
 
         public NumberType(int width) : this(width, width) { }
         public NumberType(int minWidth, int maxWidth)
@@ -28,8 +28,8 @@ namespace ConsoleTools.Model.Types
             _minWidth = minWidth;
         }
 
-        protected override int CalculateMaxWidth() => _maxWidth;
-        protected override int CalculateMinWidth() => _minWidth;
+        protected override int GetMaxWidth() => _maxWidth;
+        protected override int GetMinWidth() => _minWidth;
 
         public override string ConvertToString(T element)
         {
@@ -39,7 +39,7 @@ namespace ConsoleTools.Model.Types
             {
                 var scientific = $"{element:e0}";
 
-                if (scientific.Length <= MaxWidth)
+
                     text = $"{element:e0}";
             }
 

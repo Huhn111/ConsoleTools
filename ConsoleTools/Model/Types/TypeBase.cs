@@ -12,17 +12,18 @@ namespace ConsoleTools.Model.Types
     public abstract class TypeBase<T>
     {
         protected readonly Orientations _orientation;
-        public int MinWidth { get => CalculateMinWidth(); }
-        public int MaxWidth { get => CalculateMaxWidth(); }
+        public int MinWidth { get => GetMinWidth(); }
+        public int MaxWidth { get => GetMaxWidth(); }
         public Orientations Orientation { get => _orientation; }
 
-        public int ActualWidth { get; set; }
+        public int ActualWidth { get; private set; }
 
         public TypeBase() { _orientation = Orientations.Left; }
         public TypeBase(Orientations orientation) { _orientation = orientation; }
 
-        protected abstract int CalculateMaxWidth();
-        protected abstract int CalculateMinWidth();
+        protected abstract int GetMaxWidth();
+        protected abstract int GetMinWidth();
+        protected abstract int SetActualWidth();
         public abstract string ConvertToString(T element);
 
         public virtual string FormatString(string? element)
