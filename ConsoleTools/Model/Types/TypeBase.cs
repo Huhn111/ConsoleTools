@@ -29,7 +29,7 @@ namespace ConsoleTools.Model.Types
         {
             var text = element ?? string.Empty;
 
-            if (ActualWidth > MaxWidth)
+            if (text.Length > MaxWidth)
                 text = string.Concat(text.AsSpan(0, MaxWidth - 3), "...");
 
             return Orientation switch
