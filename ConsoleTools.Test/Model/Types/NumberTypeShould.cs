@@ -35,16 +35,18 @@ namespace ConsoleTools.Test.Model.Types
             sType.Orientation.ShouldBe(Orientations.Center);
         }
 
-        [InlineData(Orientations.Left, 1, 9, "9")]
-        [InlineData(Orientations.Left, 3, 9, "9  ")]
-        [InlineData(Orientations.Right, 3, 9, "  9")]
-        [InlineData(Orientations.Center, 3, 9, " 9 ")]
-        [InlineData(Orientations.Left, 3, 100000000, "1e+008")]
-        [InlineData(Orientations.Left, 6, 100000000, "1e+008")]
+        [InlineData(Orientations.Left,1 , 1, 9, "9")]
+        [InlineData(Orientations.Left,1 , 3, 9, "9  ")]
+        [InlineData(Orientations.Right,1, 3, 9, "  9")]
+        [InlineData(Orientations.Center, 1, 3, 9, " 9 ")]
+        [InlineData(Orientations.Left, 6, 6, 100000000, "1e+008")]
+        [InlineData(Orientations.Left, 6, 8, 1000000000, "1e+009  ")]
+        [InlineData(Orientations.Right, 6, 8, 1000000000, "  1e+009")]
+        [InlineData(Orientations.Center, 6, 8, 1000000000, " 1e+009 ")]
         [Theory]
-        public void FormatText(Orientations orientation, int length, int number, string expectedResult)
+        public void FormatText(Orientations orientation, int actualMaxWidth, int length, int number, string expectedResult)
         {
-            NumberType<int> sType = new(length, orientation) { ActualMaxWidth = number.ToString().Length };
+            NumberType<int> sType = new(length, orientation) { ActualMaxWidth = actualMaxWidth };
 
             var result = sType.GetFormatedString(number);
 
